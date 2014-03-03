@@ -2,6 +2,8 @@
 
 `EPSReactiveCollectionViewController` is a subclass of `UICollectionViewController` that automatically populates a collection view, and animates the insertion and deletion of items by observing changes to an array of model objects. It uses [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), and is designed to be used with the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern.
 
+[EPSReactiveTableViewController](https://github.com/ElectricPeelSoftware/EPSReactiveTableViewController) provides similar functionality for table view controllers.
+
 ## Usage
 
 Subclass `EPSReactiveCollectionViewController`, and write an `init` method which calls `initWithCollectionViewLayout:bindingToKeyPath:onObject:` on `super` to set up the binding. The value at the key path must always be an `NSArray` containing objects that implement `-isEqual:` and `-hash`. No object should appear in the array more than once. In the `init` method, register a cell class for use with the class of object that will be contained in the observed array. (The cell class must conform to `<EPSReactiveCollectionViewCell>`.)
