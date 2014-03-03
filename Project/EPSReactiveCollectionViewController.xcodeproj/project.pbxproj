@@ -15,26 +15,11 @@
 		D00866D318C4DD5D00132DEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D00866D218C4DD5D00132DEB /* main.m */; };
 		D00866D718C4DD5D00132DEB /* EPSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D00866D618C4DD5D00132DEB /* EPSAppDelegate.m */; };
 		D00866D918C4DD5D00132DEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00866D818C4DD5D00132DEB /* Images.xcassets */; };
-		D00866E018C4DD5D00132DEB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00866DF18C4DD5D00132DEB /* XCTest.framework */; };
-		D00866E118C4DD5D00132DEB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00866C618C4DD5D00132DEB /* Foundation.framework */; };
-		D00866E218C4DD5D00132DEB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00866CA18C4DD5D00132DEB /* UIKit.framework */; };
-		D00866EA18C4DD5D00132DEB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D00866E818C4DD5D00132DEB /* InfoPlist.strings */; };
-		D00866EC18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D00866EB18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.m */; };
 		D008670618C4FCEA00132DEB /* EPSExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D008670518C4FCEA00132DEB /* EPSExampleViewController.m */; };
 		D008670918C4FE2300132DEB /* EPSExampleViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D008670818C4FE2300132DEB /* EPSExampleViewModel.m */; };
 		D008670C18C4FEFE00132DEB /* EPSColorSwatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D008670B18C4FEFE00132DEB /* EPSColorSwatch.m */; };
 		D008670F18C4FFF300132DEB /* EPSColorSwatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D008670E18C4FFF300132DEB /* EPSColorSwatchCell.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D00866E318C4DD5D00132DEB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D00866BB18C4DD5D00132DEB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D00866C218C4DD5D00132DEB;
-			remoteInfo = EPSReactiveCollectionViewController;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		54C3F438B9AF42AAA8476E8C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -50,7 +35,6 @@
 		D00866D518C4DD5D00132DEB /* EPSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EPSAppDelegate.h; sourceTree = "<group>"; };
 		D00866D618C4DD5D00132DEB /* EPSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EPSAppDelegate.m; sourceTree = "<group>"; };
 		D00866D818C4DD5D00132DEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D00866DE18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EPSReactiveCollectionViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00866DF18C4DD5D00132DEB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D00866E718C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EPSReactiveCollectionViewControllerTests-Info.plist"; sourceTree = "<group>"; };
 		D00866E918C4DD5D00132DEB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -77,16 +61,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D00866DB18C4DD5D00132DEB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D00866E018C4DD5D00132DEB /* XCTest.framework in Frameworks */,
-				D00866E218C4DD5D00132DEB /* UIKit.framework in Frameworks */,
-				D00866E118C4DD5D00132DEB /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -105,7 +79,6 @@
 			isa = PBXGroup;
 			children = (
 				D00866C318C4DD5D00132DEB /* EPSReactiveCollectionViewController.app */,
-				D00866DE18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -192,24 +165,6 @@
 			productReference = D00866C318C4DD5D00132DEB /* EPSReactiveCollectionViewController.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D00866DD18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D00866F218C4DD5D00132DEB /* Build configuration list for PBXNativeTarget "EPSReactiveCollectionViewControllerTests" */;
-			buildPhases = (
-				D00866DA18C4DD5D00132DEB /* Sources */,
-				D00866DB18C4DD5D00132DEB /* Frameworks */,
-				D00866DC18C4DD5D00132DEB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D00866E418C4DD5D00132DEB /* PBXTargetDependency */,
-			);
-			name = EPSReactiveCollectionViewControllerTests;
-			productName = EPSReactiveCollectionViewControllerTests;
-			productReference = D00866DE18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -219,11 +174,6 @@
 				CLASSPREFIX = EPS;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Electric Peel, LLC";
-				TargetAttributes = {
-					D00866DD18C4DD5D00132DEB = {
-						TestTargetID = D00866C218C4DD5D00132DEB;
-					};
-				};
 			};
 			buildConfigurationList = D00866BE18C4DD5D00132DEB /* Build configuration list for PBXProject "EPSReactiveCollectionViewController" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -238,7 +188,6 @@
 			projectRoot = "";
 			targets = (
 				D00866C218C4DD5D00132DEB /* EPSReactiveCollectionViewController */,
-				D00866DD18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -250,14 +199,6 @@
 			files = (
 				D00866D118C4DD5D00132DEB /* InfoPlist.strings in Resources */,
 				D00866D918C4DD5D00132DEB /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D00866DC18C4DD5D00132DEB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D00866EA18C4DD5D00132DEB /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,23 +251,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D00866DA18C4DD5D00132DEB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D00866EC18C4DD5D00132DEB /* EPSReactiveCollectionViewControllerTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D00866E418C4DD5D00132DEB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D00866C218C4DD5D00132DEB /* EPSReactiveCollectionViewController */;
-			targetProxy = D00866E318C4DD5D00132DEB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D00866CF18C4DD5D00132DEB /* InfoPlist.strings */ = {
@@ -448,48 +373,6 @@
 			};
 			name = Release;
 		};
-		D00866F318C4DD5D00132DEB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/EPSReactiveCollectionViewController.app/EPSReactiveCollectionViewController";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "EPSReactiveCollectionViewController/EPSReactiveCollectionViewController-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "EPSReactiveCollectionViewControllerTests/EPSReactiveCollectionViewControllerTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		D00866F418C4DD5D00132DEB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/EPSReactiveCollectionViewController.app/EPSReactiveCollectionViewController";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "EPSReactiveCollectionViewController/EPSReactiveCollectionViewController-Prefix.pch";
-				INFOPLIST_FILE = "EPSReactiveCollectionViewControllerTests/EPSReactiveCollectionViewControllerTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -507,15 +390,6 @@
 			buildConfigurations = (
 				D00866F018C4DD5D00132DEB /* Debug */,
 				D00866F118C4DD5D00132DEB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D00866F218C4DD5D00132DEB /* Build configuration list for PBXNativeTarget "EPSReactiveCollectionViewControllerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D00866F318C4DD5D00132DEB /* Debug */,
-				D00866F418C4DD5D00132DEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
