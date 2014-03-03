@@ -54,5 +54,5 @@ Alternatively, include `EPSReactiveCollectionViewController.h` and `EPSReactiveC
 
 ## License
 
-EPSReactiveCollectionViewController is available under the MIT license. See the LICENSE file for more info.
+EPSReactiveCollectionViewController is available under the MIT license. See the [LICENSE](https://github.com/ElectricPeelSoftware/EPSReactiveCollectionViewController/blob/master/LICENSE) file for more info.
 
