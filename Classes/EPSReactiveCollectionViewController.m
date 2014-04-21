@@ -14,7 +14,8 @@
 
 @property (readwrite, nonatomic) RACSignal *didSelectItemSignal;
 
-@property (nonatomic) NSArray *objects;
+@property (nonatomic) NSArray *sectionSignals;
+@property (nonatomic) NSArray *objectsInSections;
 @property (nonatomic) NSDictionary *identifiersForClasses;
 
 @end
@@ -23,19 +24,16 @@
 
 #pragma mark - Public Methods
 
-- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout bindingToKeyPath:(NSString *)keyPath onObject:(id)object {
+- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
     self = [super initWithCollectionViewLayout:layout];
     if (self == nil) return nil;
     
     _animateChanges = YES;
     _identifiersForClasses = @{};
-    
-    RAC(self, objects) = [[object
-        rac_valuesForKeyPath:keyPath observer:self]
-        deliverOn:[RACScheduler mainThreadScheduler]];
+    _sectionSignals = @[];
     
     RACSignal *didSelectMethodSignal = [self rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
-    RACSignal *objectsWhenSelected = [RACObserve(self, objects) sample:didSelectMethodSignal];
+    RACSignal *objectsWhenSelected = [RACObserve(self, objectsInSections) sample:didSelectMethodSignal];
     
     self.didSelectItemSignal = [[didSelectMethodSignal
         zipWith:objectsWhenSelected]
@@ -45,8 +43,23 @@
             id object = [EPSReactiveCollectionViewController objectForIndexPath:indexPath inArray:objects];
             return RACTuplePack(object, indexPath, collectionView);
         }];
-
+    
+    RAC(self, objectsInSections) = [[[[RACObserve(self, sectionSignals)
+        map:^RACSignal *(NSArray *signals) {
+            return [RACSignal combineLatest:signals];
+        }]
+        switchToLatest]
+        map:^NSArray *(RACTuple *tuple) {
+            return tuple.rac_sequence.array;
+        }]
+        distinctUntilChanged];
+    
     return self;
+}
+
+- (void)addBindingToKeyPath:(NSString *)keyPath onObject:(id)object {
+    RACSignal *signal = [[object rac_valuesForKeyPath:keyPath observer:self] deliverOn:[RACScheduler mainThreadScheduler]];
+    self.sectionSignals = [self.sectionSignals arrayByAddingObject:signal];
 }
 
 - (void)registerCellClass:(Class)cellClass forObjectsWithClass:(Class)objectClass {
@@ -59,15 +72,30 @@
 }
 
 - (NSIndexPath *)indexPathForObject:(id)object {
-    return [NSIndexPath indexPathForRow:[self.objects indexOfObject:object] inSection:0];
+    return [EPSReactiveCollectionViewController indexPathForObject:object inSectionsArray:self.objectsInSections];
 }
 
 - (id)objectForIndexPath:(NSIndexPath *)indexPath {
-    return [EPSReactiveCollectionViewController objectForIndexPath:indexPath inArray:self.objects];
+    return [EPSReactiveCollectionViewController objectForIndexPath:indexPath inArray:self.objectsInSections];
 }
 
 + (id)objectForIndexPath:(NSIndexPath *)indexPath inArray:(NSArray *)array {
-    return array[indexPath.row];
+    return array[indexPath.section][indexPath.row];
+}
+
++ (NSIndexPath *)indexPathForObject:(id)object inSectionsArray:(NSArray *)array {
+    for (NSArray *sectionContents in array) {
+        for (id anObject in sectionContents) {
+            if ([anObject isEqual:object]) {
+                NSInteger section = [array indexOfObject:sectionContents];
+                NSInteger item = [sectionContents indexOfObject:anObject];
+                
+                return [NSIndexPath indexPathForItem:item inSection:section];
+            }
+        }
+    }
+    
+    return nil;
 }
 
 #pragma mark - Private Methods
@@ -77,7 +105,7 @@
     
     @weakify(self);
     
-    RACSignal *changeSignal = [[self rac_valuesAndChangesForKeyPath:@keypath(self.objects) options:NSKeyValueObservingOptionOld observer:nil]
+    RACSignal *changeSignal = [[self rac_valuesAndChangesForKeyPath:@keypath(self.objectsInSections) options:NSKeyValueObservingOptionOld observer:nil]
         map:^RACTuple *(RACTuple *tuple) {
             RACTupleUnpack(NSArray *newObjects, NSDictionary *changeDictionary) = tuple;
             id oldObjects = changeDictionary[NSKeyValueChangeOldKey];
@@ -88,23 +116,32 @@
 
             NSArray *itemsToRemove;
 
-            itemsToRemove = [[[oldObjectsArray.rac_sequence
-                filter:^BOOL(id object) {
-                    return [newObjects containsObject:object] == NO;
-                }]
-                map:^NSIndexPath *(id object) {
-                    return [NSIndexPath indexPathForRow:[oldObjects indexOfObject:object] inSection:0];
-                }]
-                array];
+            itemsToRemove = [oldObjectsArray.rac_sequence
+                foldLeftWithStart:@[] reduce:^id(NSArray *accumulator, NSArray *sectionArray) {
+                    NSArray *newPaths = [[[sectionArray.rac_sequence
+                        filter:^BOOL(id object) {
+                            return [EPSReactiveCollectionViewController indexPathForObject:object inSectionsArray:newObjects] == NO;
+                        }]
+                        map:^NSIndexPath *(id object) {
+                            return [EPSReactiveCollectionViewController indexPathForObject:object inSectionsArray:oldObjectsArray];
+                        }]
+                        array];
+                    return [accumulator arrayByAddingObjectsFromArray:newPaths];
+                }];
 
-            NSArray *itemsToInsert = [[[newObjects.rac_sequence
-                filter:^BOOL(id object) {
-                    return ([oldObjectsArray containsObject:object] == NO);
-                }]
-                map:^NSIndexPath *(id object) {
-                    return [NSIndexPath indexPathForRow:[newObjects indexOfObject:object] inSection:0];
-                }]
-                array];
+            NSArray *itemsToInsert = [newObjects.rac_sequence
+                foldLeftWithStart:@[] reduce:^id(NSArray *accumulator, NSArray *sectionArray) {
+                    NSArray *newPaths = [[[sectionArray.rac_sequence
+                        filter:^BOOL(id object) {
+                            return [EPSReactiveCollectionViewController indexPathForObject:object inSectionsArray:oldObjectsArray] == NO;
+                        }]
+                        map:^NSIndexPath *(id object) {
+                            return [EPSReactiveCollectionViewController indexPathForObject:object inSectionsArray:newObjects];
+                        }]
+                        array];
+                    
+                    return [accumulator arrayByAddingObjectsFromArray:newPaths];
+                }];
 
             return RACTuplePack(itemsToRemove, itemsToInsert);
         }];
@@ -151,11 +188,11 @@
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return self.objectsInSections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.objects.count;
+    return [self.objectsInSections[section] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -175,6 +212,10 @@
     cell.object = object;
     
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 #pragma mark - For Subclasses

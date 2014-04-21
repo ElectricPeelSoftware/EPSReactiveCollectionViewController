@@ -52,12 +52,7 @@
  */
 - (void)registerCellClass:(Class)cellClass forObjectsWithClass:(Class)objectClass;
 
-/**
- @param layout The collection view layout to use.
- @param keyPath The key path to observe on \c object. The value at the key path must always be an \c NSArray containing objects that implement \c -isEqual: and \c -hash. No object should appear in the array more than once.
- @param object The object whose key path will be observed.
- */
-- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout bindingToKeyPath:(NSString *)keyPath onObject:(id)object;
+- (void)addBindingToKeyPath:(NSString *)keyPath onObject:(id)object;
 
 /**
  Override this method instead of \c -collectionView:cellForItemAtIndexPath:.

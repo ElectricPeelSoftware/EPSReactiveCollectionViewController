@@ -14,7 +14,8 @@
 
 @interface EPSExampleViewModel ()
 
-@property (nonatomic) NSSet *colorSwatches;
+@property (nonatomic) NSSet *firstColorSwatchesSet;
+@property (nonatomic) NSSet *secondColorSwatchesSet;
 
 @end
 
@@ -24,35 +25,79 @@
     self = [super init];
     if (self == nil) return nil;
     
-    NSMutableSet *swatches = [NSMutableSet new];
+    NSMutableSet *firstSwatches = [NSMutableSet new];
+    NSMutableSet *secondSwatches = [NSMutableSet new];
+    
     for (NSInteger index = 0; index < 5; index++) {
-        [swatches addObject:[EPSExampleViewModel randomColorSwatch]];
+        [firstSwatches addObject:[EPSExampleViewModel randomColorSwatch]];
+        [secondSwatches addObject:[EPSExampleViewModel randomColorSwatch]];
     }
     
-    _colorSwatches = swatches;
+    _firstColorSwatchesSet = firstSwatches;
+    _secondColorSwatchesSet = secondSwatches;
     
-    RAC(self, sortedColorSwatches) = [RACObserve(self, colorSwatches)
-        map:^NSArray *(NSSet *swatches){
-            return [swatches sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"hue" ascending:YES] ]];
+    RAC(self, firstColorSwatches) = [RACObserve(self, firstColorSwatchesSet)
+        map:^NSArray *(NSSet *swatchesSet){
+            return [swatchesSet sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"hue" ascending:YES] ]];
+        }];
+    
+    RAC(self, secondColorSwatches) = [RACObserve(self, secondColorSwatchesSet)
+        map:^NSArray *(NSSet *swatchesSet) {
+            return [swatchesSet sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"hue" ascending:YES] ]];
         }];
     
     return self;
 }
 
-- (void)addColorSwatch {
+- (void)addColorSwatchToSection:(NSInteger)section {
+    NSSet *set;
+    if (section == 0) set = self.firstColorSwatchesSet;
+    else set = self.secondColorSwatchesSet;
+    
     // Make sure all swatches are unique
     EPSColorSwatch *newSwatch;
     do {
         newSwatch = [EPSExampleViewModel randomColorSwatch];
-    } while ([self.colorSwatches containsObject:newSwatch]);
+    } while ([set containsObject:newSwatch]);
     
-    self.colorSwatches = [self.colorSwatches setByAddingObject:newSwatch];
+    if (section == 0) self.firstColorSwatchesSet = [self.firstColorSwatchesSet setByAddingObject:newSwatch];
+    else self.secondColorSwatchesSet = [self.secondColorSwatchesSet setByAddingObject:newSwatch];
 }
 
-- (void)removeColorSwatch:(EPSColorSwatch *)swatch {
-    NSMutableSet *colorSwatches = self.colorSwatches.mutableCopy;
-    [colorSwatches removeObject:swatch];
-    self.colorSwatches = colorSwatches;
+- (void)removeColorSwatch:(EPSColorSwatch *)swatch fromSection:(NSInteger)section {
+    if (section == 0) {
+        NSMutableSet *firstColorSwatches = self.firstColorSwatchesSet.mutableCopy;
+        EPSColorSwatch *firstColorSwatch = self.firstColorSwatches.firstObject;
+        [firstColorSwatches removeObject:firstColorSwatch];
+        self.firstColorSwatchesSet = firstColorSwatches;
+    }
+    else {
+        NSMutableSet *secondColorSwatches = self.secondColorSwatchesSet.mutableCopy;
+        EPSColorSwatch *secondColorSwatch = self.secondColorSwatches.firstObject;
+        [secondColorSwatches removeObject:secondColorSwatch];
+        self.secondColorSwatchesSet = secondColorSwatches;
+    }
+    
+    return;
+    
+    /*
+    if ([firstColorSwatches containsObject:swatch]) {
+        NSInteger index = [self.firstColorSwatches indexOfObject:swatch];
+        NSLog(@"delete %i %i", 0, index);
+        
+        [firstColorSwatches removeObject:swatch];
+        self.firstColorSwatchesSet = firstColorSwatches;
+    }
+    
+    NSMutableSet *secondColorSwatches = self.secondColorSwatchesSet.mutableCopy;
+    if ([secondColorSwatches containsObject:swatch]) {
+        NSInteger index = [self.secondColorSwatches indexOfObject:swatch];
+        NSLog(@"delete %i %i", 1, index);
+
+        [secondColorSwatches removeObject:swatch];
+        self.secondColorSwatchesSet = secondColorSwatches;
+    }
+     */
 }
 
 + (EPSColorSwatch *)randomColorSwatch {

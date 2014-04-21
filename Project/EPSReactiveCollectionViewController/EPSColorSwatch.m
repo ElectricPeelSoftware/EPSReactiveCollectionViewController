@@ -22,7 +22,7 @@
     if ([object isKindOfClass:[EPSColorSwatch class]] == NO) return NO;
     
     EPSColorSwatch *swatch = object;
-    return [self.color isEqual:swatch];
+    return [self.color isEqual:swatch.color];
 }
 
 - (NSUInteger)hash {

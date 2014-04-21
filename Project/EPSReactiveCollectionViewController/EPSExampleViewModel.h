@@ -12,9 +12,10 @@
 
 @interface EPSExampleViewModel : NSObject
 
-@property (nonatomic) NSArray *sortedColorSwatches;
+@property (nonatomic) NSArray *firstColorSwatches;
+@property (nonatomic) NSArray *secondColorSwatches;
 
-- (void)addColorSwatch;
-- (void)removeColorSwatch:(EPSColorSwatch *)swatch;
+- (void)addColorSwatchToSection:(NSInteger)section;
+- (void)removeColorSwatch:(EPSColorSwatch *)swatch fromSection:(NSInteger)section;
 
 @end

@@ -29,12 +29,13 @@
     layout.itemSize = CGSizeMake(60, 60);
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    EPSExampleViewModel *viewModel = [EPSExampleViewModel new];
-    
-    self = [super initWithCollectionViewLayout:layout bindingToKeyPath:@keypath(viewModel, sortedColorSwatches) onObject:viewModel];
+    self = [super initWithCollectionViewLayout:layout];
     if (self == nil) return self;
 
-    _viewModel = viewModel;
+    _viewModel = [EPSExampleViewModel new];
+    
+    [self addBindingToKeyPath:@"firstColorSwatches" onObject:_viewModel];
+    [self addBindingToKeyPath:@"secondColorSwatches" onObject:_viewModel];
     
     [self registerCellClass:[EPSColorSwatchCell class] forObjectsWithClass:[EPSColorSwatch class]];
 
@@ -43,14 +44,13 @@
     @weakify(self);
     
     // Delete the color swatch when it's tapped
-    [[self.didSelectItemSignal
-        reduceEach:^EPSColorSwatch *(EPSColorSwatch *swatch, NSIndexPath *indexPath, UICollectionView *collectionView){
-            return swatch;
-        }]
-        subscribeNext:^(EPSColorSwatch *swatch) {
+    [self.didSelectItemSignal
+        subscribeNext:^(RACTuple *tuple) {
+            RACTupleUnpack(EPSColorSwatch *swatch, NSIndexPath *indexPath) = tuple;
+            
             @strongify(self);
             
-            [self.viewModel removeColorSwatch:swatch];
+            [self.viewModel removeColorSwatch:swatch fromSection:indexPath.section];
         }];
     
     return self;
@@ -63,7 +63,8 @@
 }
 
 - (void)addSwatch:(id)sender {
-    [self.viewModel addColorSwatch];
+    NSInteger section = arc4random() % 2;
+    [self.viewModel addColorSwatchToSection:section];
 }
 
 @end
