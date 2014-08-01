@@ -1,5 +1,7 @@
 # EPSReactiveCollectionViewController
 
+:warning: EPSReactiveCollectionViewController has been deprecated in favor of [EPSReactiveList](https://github.com/ElectricPeelSoftware/EPSReactiveList). :warning:
+
 `EPSReactiveCollectionViewController` is a subclass of `UICollectionViewController` that automatically populates a collection view, and animates the insertion and deletion of items by observing changes to an array of model objects. It uses [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa), and is designed to be used with the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern.
 
 [EPSReactiveTableViewController](https://github.com/ElectricPeelSoftware/EPSReactiveTableViewController) provides similar functionality for table view controllers.
