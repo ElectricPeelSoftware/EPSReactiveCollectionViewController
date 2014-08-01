@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "EPSReactiveCollectionViewController"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "A collection view controller that automatically populates a collection view, and animates the insertion and deletion of items."
   s.description      = "EPSReactiveCollectionViewController is a subclass of `UICollectionViewController` that automatically populates a collection view, and animates the insertion and deletion of items by observing changes to an array of model objects."
 
@@ -16,5 +16,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes'
 
   s.public_header_files = 'Classes/*.h'
-  s.dependency 'ReactiveCocoa', '~> 2.2.4'
+  s.dependency 'ReactiveCocoa', '~> 2.3'
+
+  s.deprecated_in_favor_of = 'EPSReactiveList'
 end
